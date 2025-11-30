@@ -2,43 +2,53 @@
 
 This repository contains the code and resources for the paper “**Ejection fraction quantification from ungated chest CT by AI**.”
 
+[Read the paper on medRxiv.](https://www.medrxiv.org/content/10.1101/2025.11.14.25339933v1)
+
 > **TL;DR**: We provide an interpretable AI model that estimate left ventricular ejection fraction from non-contrast, ungated chest CT scans. This README explains the study context and shows how to develop and evaluate the model in Python.
 
 
-## Background & Objectives
+## Background & objectives
 
-**Backgroud**: Left ventricular ejection fraction (LVEF) is commonly assessed through specilized imaging techniques.
+**Background**: Left ventricular ejection fraction (LVEF) is commonly assessed through specialized imaging techniques.
 
 **Objective**: Develop an AI model that predicts LVEF from static, non-contrast, un-electrocardiographic-gated chest CT scans. 
 
-## Key Results (from the paper)
+## Key results (from the paper)
 
 1. **External evaluation with PET LVEF**: AI-derived CT LVEF showed a strong correlation with gated position emission tomography (PET) LVEF (r = 0.84), reaching an area under the curve (AUC) of 0.96 and a negative predictive value of 95% for identifying reduced LVEF (< 40%). The hazard ratios (HRs) of heart failure, cardiovascular death, and all-cause death were similar between PET and AI CT LVEF.
 
 2. **External evaluation with Echocardiographic LVEF**: AI CT LVEF showed a moderate correlation with echocardiographic LVEF (r = 0.72), reaching an AUC of 0.91 and a negative predictive value of 96% for identifying reduced LVEF.
 
-3. **Risk stratification in NLST**: Reduced LVEF (AI CT) was asscoiated with a 13-fold increase in the risk of cardiovascular death and a 4-fold incrase for all-cause death in the National Lung Screening Trial (NLST).
+3. **Risk stratification in NLST**: Reduced LVEF (AI CT) was associated with a 13-fold increase in the risk of cardiovascular death and a 4-fold increase for all-cause death in the National Lung Screening Trial (NLST).
 
 **Conclusion**: Opportunistic AI LVEF from chest CT scans provides not only a quantitative measure of cardiac function but also serves as a powerful predictor of adverse outcomes. 
 
 ## Why this matters
 
-- **Clinical impact**: Accurately estimates LVEF from ungated chest CT scans which would enhance cardiovascular screening, enabling early identification of systolic dysfunction in populations undergoing chest CT for non‑cardiac indications (e.g., smokers, oncology surveillance, trauma), without incurring additional costs, radiation, or contrast exposure. .
+- **Clinical impact**: Accurately estimates LVEF from ungated chest CT scans which would enhance cardiovascular screening, enabling early identification of systolic dysfunction in populations undergoing chest CT for non‑cardiac indications (e.g., smokers, oncology surveillance, trauma), without incurring additional costs, radiation, or contrast exposure.
 
 - **Robust validation**: Externally evaluated with PET and echocardiographic LVEF.
 
 - **Transparency & usability**: Explains major features considered in prediction, supporting physician trust and adoption.   
 
 
-## Repository Layout
+## Repository layout
 
  - `xgboost.py` — training/utility code for the XGBoost‑based model used in the study.
  - `shap.py` — feature interpretation globally and locally.
  - `visualization.py` — plotting function.
 
+## How to use
+
+1. In Python (version 3.10), install the requirements `pip install -r requirements.txt` (installation time ~5 minutes).
+2. Prepare `df` with`LVEF` and `Site` for model development and evaluation.
+3. Load `df` and run `xgboost.py` for site-specific LVEF predictions in the leave-one-site-out external validation (estimated run time ~3 minutes for training on 20,000 cases with 40 features and testing on 5,000 cases).
+4. Run `shap.py` for figures of global and local feature importance (estimated run time ~30 minutes for SHAP values).
+5. Prepare results of statistics tests and run `visualization.py` for figures of evaluations.
+
 ### Note
 
-The code used to perform the analyzes described in the article depends also on the following open source repositories:
+The code used to perform the analyzes described in the article depends also on the following open-source repositories:
 
 The cLSTM code is publicly available under a Creative Commons BY-NC license at https://doi.org/10.5281/zenodo.10632288, the TotalSegmentator is available at https://github.com/wasserth/TotalSegmentator, and the XGBoost Python implementation is available at https://xgboost.readthedocs.io/en/stable/python/. 
 
